@@ -42,9 +42,6 @@ export const Globe = () => {
   }, [current]);
 
   useEffect(() => {
-    // if (!location) {
-    //   return;
-    // }
     wwd.current = new WorldWind.WorldWindow("canvasOne");
     wwd.current.addLayer(new WorldWind.BMNGOneImageLayer(), {
       category: "background",

@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const http = require("http");
 const cron = require("node-cron");
-const fetch = require("node-fetch");
-
 const cors = require("cors");
 require("dotenv/config");
 const { Server } = require("socket.io");
@@ -32,22 +30,16 @@ app.use("/notifications", notificationsRoute);
 io.on("connection", (socket) => {
   console.log("User connected");
 
-  socket.on("disconect", (reaason) => {
-    console.log(reaason);
+  socket.on("disconect", (reason) => {
+    console.log(reason);
   });
 });
 
 cron.schedule("*/5 * * * * *", async () => {
-  // console.log("5");
   const data = await getLocationFn();
   io.emit("update", data);
   await sendNotifcation(data);
 });
-
-// cron.schedule("*/10 * * * * *", function () {
-//   console.log("10");
-//   // getLocation();
-// });
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () =>
   console.log("connected to DB!")

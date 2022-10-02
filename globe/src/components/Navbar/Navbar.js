@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import nasaLogo from "../../images/NASA_logo.png";
 
 export const Navbar = () => {
   return (
@@ -28,7 +27,6 @@ export const Navbar = () => {
           },
         }}
       >
-        <img src={nasaLogo} alt="Logo" style={{ height: "90%" }} />
         <Typography sx={{ marginLeft: 0.5 }}>ISS Tracker</Typography>
       </Box>
     </Box>

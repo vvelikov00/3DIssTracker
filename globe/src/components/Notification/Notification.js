@@ -40,7 +40,6 @@ export const Notification = () => {
     if (response.status === 200) {
       setMessage("Email added successfully!");
     }
-    console.log(response);
   };
 
   const handleClose = () => {
