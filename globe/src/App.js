@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { Globe } from "./components/Globe";
 import { Navbar } from "./components/Navbar";
+import { SocketContext, socket } from "./context/socket";
 
 function App() {
   return (
@@ -15,17 +16,19 @@ function App() {
         background: "#0f0f0f",
       }}
     >
-      <Navbar />
-      <Box
-        sx={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          justifyContent: "end",
-        }}
-      >
-        <Globe />
-      </Box>
+      <SocketContext.Provider value={socket}>
+        <Navbar />
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "end",
+          }}
+        >
+          <Globe />
+        </Box>
+      </SocketContext.Provider>
     </div>
   );
 }

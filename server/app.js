@@ -22,9 +22,12 @@ app.use(cors());
 app.use(express.json());
 
 const tracksRoute = require("./routes/tracks.Route");
+const notificationsRoute = require("./routes/notifications.Route");
 const { getLocationFn } = require("./functions/getLocation");
+const { sendNotifcation } = require("./functions/sendNotification");
 
 app.use("/", tracksRoute);
+app.use("/notifications", notificationsRoute);
 
 io.on("connection", (socket) => {
   console.log("User connected");
@@ -38,6 +41,7 @@ cron.schedule("*/5 * * * * *", async () => {
   // console.log("5");
   const data = await getLocationFn();
   io.emit("update", data);
+  await sendNotifcation(data);
 });
 
 // cron.schedule("*/10 * * * * *", function () {

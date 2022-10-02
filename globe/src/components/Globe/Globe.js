@@ -9,28 +9,26 @@ import {
   TextField,
 } from "@mui/material";
 import WorldWind from "@nasaworldwind/worldwind";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { SocketContext } from "../../context/socket";
+import { Astros } from "../Astros";
 import { Info } from "../Info";
+import { Notification } from "../Notification";
 
 export const Globe = () => {
   const [location, setLocation] = useState(null);
   const [current, setCurrent] = useState(true);
   const [open, setOpen] = useState(false);
-  WorldWind.Logger.setLoggingLevel(WorldWind.Logger.LEVEL_WARNING);
+  const socket = useContext(SocketContext);
   const wwd = useRef(null);
   const atmosphereLayer = useRef(null);
   const starfieldLayer = useRef(null);
   const modelLayer = useRef(null);
 
-  useEffect(() => {
-    const socket = io("localhost:8080");
-    if (!current) {
-      return;
-    }
+  WorldWind.Logger.setLoggingLevel(WorldWind.Logger.LEVEL_WARNING);
 
+  useEffect(() => {
     socket.on("update", (response) => {
-      console.log(current);
       if (!current) {
         return;
       }
@@ -126,11 +124,9 @@ export const Globe = () => {
       `https://api.wheretheiss.at/v1/satellites/25544/positions?timestamps=${time}`
     );
     const data = await response.json();
-    console.log(data);
     setCurrent(false);
     setLocation(data[0]);
     goToLocation(data[0]);
-    const now = new Date();
 
     atmosphereLayer.current.time = new Date(time * 1000);
     starfieldLayer.current.time = new Date(time * 1000);
@@ -261,7 +257,10 @@ export const Globe = () => {
               Search
             </Button>
           </Box>
+          <Astros />
+          <Notification />
         </Box>
+
         <Box
           sx={{
             width: "100%",

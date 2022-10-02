@@ -23,7 +23,7 @@ export const Info = ({ location }) => {
         <Typography variant="p">Latitude</Typography>
         <Typography>
           {Math.abs(Math.floor(location.latitude * 100) / 100)}{" "}
-          {location.longitude < 0 ? "S" : "N"}
+          {location.latitude < 0 ? "S" : "N"}
         </Typography>
       </Box>
       <Box>
@@ -44,6 +44,15 @@ export const Info = ({ location }) => {
       <Box>
         <Typography variant="p">Visibility</Typography>
         <Typography>{capitalizeFirstLetter(location.visibility)}</Typography>
+      </Box>
+      <Box>
+        <Typography variant="p">Solar Panels Orientation</Typography>
+        <Typography>
+          {Math.abs(Math.floor(location.solar_lat * 100) / 100)}{" "}
+          {location.solar_lat < 0 ? "S" : "N"}{" "}
+          {Math.abs(Math.floor(location.solar_lon * 100) / 100)}{" "}
+          {location.solar_lon < 0 ? "W" : "E"}
+        </Typography>
       </Box>
     </Box>
   );
